@@ -2,7 +2,7 @@
  * This style is provided by the course staff. Please do not modify this file!
  * Please add your additional stying to  `musicbox-style.css` instead.
  **/
- 
+
 body {
   font-family: 'Open Sans', sans-serif;
   margin: 0;
@@ -82,4 +82,8 @@ body {
 
 #menu .submit-button {
   text-align: center;
+}
+
+.inactive {
+  display: none !important;
 }

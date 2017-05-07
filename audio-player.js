@@ -7,6 +7,7 @@ class AudioPlayer {
     this.lastKickTime = -1;
 
     this.dancer = new Dancer();
+
     this.kick = this.dancer.createKick({
       onKick: this._onKickCallback
     });
@@ -14,7 +15,7 @@ class AudioPlayer {
   }
 
   setSong(soundUrl) {
-    const audio = new Audio();
+    let audio = new Audio();
     audio.crossOrigin = 'anonymous';
     audio.loop = 'true';
     audio.src = soundUrl;
@@ -24,6 +25,10 @@ class AudioPlayer {
 
   play() {
     this.dancer.play();
+    const nowTime = Date.now();
+    if (this.lastKickTime === -1) {
+      this.lastKickTime = nowTime;
+    }
   }
 
   pause() {
@@ -38,11 +43,10 @@ class AudioPlayer {
     if (!this.kickCallback) {
       return;
     }
-
     const KICK_THRESHOLD = 0.2;
     const nowTime = Date.now();
     const diff = (nowTime - this.lastKickTime) / 1000;
-    if (this.lastKickTime === -1 || diff > KICK_THRESHOLD) {
+    if (diff > KICK_THRESHOLD) {
       this.lastKickTime = nowTime;
       this.kickCallback();
     }
