@@ -14,11 +14,11 @@ class AudioPlayer {
     this.kick.on();
   }
 
-  setSong(soundUrl) {
+  setSong(songUrl) {
     let audio = new Audio();
     audio.crossOrigin = 'anonymous';
     audio.loop = 'true';
-    audio.src = soundUrl;
+    audio.src = songUrl;
     this.dancer.pause();
     this.dancer.load(audio);
   }
@@ -35,8 +35,8 @@ class AudioPlayer {
     this.dancer.pause();
   }
 
-  setBeatCallback(beatCallback) {
-    this.kickCallback = beatCallback;
+  setKickCallback(kickCallback) {
+    this.kickCallback = kickCallback;
   }
 
   _onKickCallback() {
