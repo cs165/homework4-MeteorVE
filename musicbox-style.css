@@ -4,7 +4,19 @@
     align-items: stretch;
 }
 
-#music_screen {
+#music_screen {}
+
+.icon {
+    align-self: center;
+    flex-grow: 0;
+
+    margin: 0;
+    height: 60px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.front_ground {
     flex-grow: 1;
     max-width: 100%;
     height: calc(100vh - 70px);
@@ -13,14 +25,10 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+
+    z-index: 1;
 }
 
-.icon {
-    align-self: center;
-    flex-grow: 0;
-    
-    margin: 0;
-    height: 60px;
-    padding-bottom: 5px;
-    padding-top: 5px;
+.back_ground {
+    z-index: 0
 }

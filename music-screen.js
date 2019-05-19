@@ -14,14 +14,12 @@ class MusicScreen {
     this.inputValue = document.querySelector('#query-input');
     this.audioPlayer = new AudioPlayer();
     this.gifBox = null;
-    this.kickNum = 0;
-
+    this.kickNum = 1; // Because we had preloaded on back_ground
 
     // Bind
     this.submitOperation = this.submitOperation.bind(this);
     this.playAudio = this.playAudio.bind(this);
     this.onKick = this.onKick.bind(this);
-
 
     // Icon Set
     const iconEle = document.querySelector(".icon");
@@ -46,7 +44,6 @@ class MusicScreen {
   }
 
   playAudio(musicUrl){
-    // 不確定哪裡有問題
     this.audioPlayer.setSong(musicUrl);
     this.audioPlayer.setKickCallback(this.onKick);
     this.audioPlayer.play();
