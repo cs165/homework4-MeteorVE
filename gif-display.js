@@ -6,6 +6,7 @@ class GifDisplay {
   constructor(keyword) {
     this.gifInfo = null;
     this.keyword = keyword;
+    this.gifLength = 0;
     this.saveAndShow = this.saveAndShow.bind(this);
     this.renderBackGround = this.renderBackGround.bind(this);
 
@@ -20,6 +21,13 @@ class GifDisplay {
   }
 
   saveAndShow(json){
+    // check if Gif Json < 2
+    console.log("[Gif list] : ", json.data);
+    this.gifLength = json.data.length;
+    console.log("in gif class :",this.gifLength);
+    
+    if (this.gifLength < 2) return ; 
+
     this.gifInfo = json;
     const gifUrl = this.gifInfo.data[0].images.downsized.url.slice(6);
     var gifScreen = document.querySelector('.front_ground');  // music_screen => front_ground

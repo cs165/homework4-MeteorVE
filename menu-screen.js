@@ -20,20 +20,28 @@ class MenuScreen {
   }
 
   submitOperation(){
-    this.hide();
     event.preventDefault();
 
     const themeValue = document.querySelector('#song-selector').value;
     const musicScreen = new MusicScreen();
+
     // Send Gif keyword
     musicScreen.submitOperation(this.inputValue.value);
-    for (let info in this.audioInfo) {
-      if (JSON.stringify(this.audioInfo[info].title) == themeValue) {
-        musicScreen.playAudio(this.audioInfo[info].songUrl);
-      }
-    }
-
-  }
+    
+    console.log(musicScreen.gifBox.gifLengt);
+    
+    // Confirm if Gif List < 2
+    if (musicScreen.gifBox.gifLength < 2){
+      document.querySelector('#error').classList.remove("inactive");
+    }else{
+      this.hide();
+      for (let info in this.audioInfo) {
+        if (JSON.stringify(this.audioInfo[info].title) == themeValue) {
+          musicScreen.playAudio(this.audioInfo[info].songUrl);
+        }
+      }// end of for loop
+    } // end of else condition 
+  } // end of submitOperation
 
   loadSelect(){
     fetch('https://fullstackccu.github.io/homeworks/hw4/songs.json')
