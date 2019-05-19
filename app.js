@@ -5,6 +5,15 @@
 class App {
   constructor() {
     // TODO(you): Implement the constructor and add fields as necessary.
+
+    var menu = document.getElementById('#menu');
+    // menuElement.addEventListener('submit', this.Submit);
+    var musicElement = document.getElementById('#main');
+
+    const MenuEle = new MenuScreen(menu);
+    MenuEle.loadAudios();
+
+    
   }
   // TODO(you): Add methods as necessary.
 }
