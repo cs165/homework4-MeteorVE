@@ -1,3 +1,26 @@
-/*
-TODO(you): Write any additional styles you need here.
-*/
+#audioDiv {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#music_screen {
+    flex-grow: 1;
+    max-width: 100%;
+    height: calc(100vh - 70px);
+
+    background-color: gray;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.icon {
+    align-self: center;
+    flex-grow: 0;
+    
+    margin: 0;
+    height: 60px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}

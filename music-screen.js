@@ -9,7 +9,53 @@
 // See HW4 writeup for more hints and details.
 class MusicScreen {
   constructor() {
-    // TODO(you): Implement the constructor and add fields as necessary.
+
+    // Variable
+    this.inputValue = document.querySelector('#query-input');
+    this.audioPlayer = new AudioPlayer();
+    this.gifBox = null;
+    this.kickNum = 0;
+
+
+    // Bind
+    this.submitOperation = this.submitOperation.bind(this);
+    this.playAudio = this.playAudio.bind(this);
+    this.onKick = this.onKick.bind(this);
+
+
+    // Icon Set
+    const iconEle = document.querySelector(".icon");
+    iconEle.onclick = () => {
+      //iconEle.src = iconEle.src.indexOf('pause.png') != -1 ? './images/play.png' : './images/pause.png';
+      if (iconEle.src.indexOf('pause.png') != -1 ){
+        iconEle.src = './images/play.png';
+        this.audioPlayer.pause();
+      }else{
+        iconEle.src = './images/pause.png';
+        this.audioPlayer.play();
+      }
+    }
+
   }
-  // TODO(you): Add methods as necessary.
+
+  submitOperation(gifKeyword){
+    const audioDiv = document.querySelector('#audioDiv');
+    audioDiv.style.display = 'flex';
+    this.gifBox = new GifDisplay(gifKeyword);
+    this.gifBox.loadGif();
+  }
+
+  playAudio(musicUrl){
+    // 不確定哪裡有問題
+    this.audioPlayer.setSong(musicUrl);
+    this.audioPlayer.setKickCallback(this.onKick);
+    this.audioPlayer.play();
+  }
+
+  onKick() {
+    console.log('Kick appear');
+    this.gifBox.nextGif(this.kickNum);
+    this.kickNum += 1;
+    if (this.kickNum >= 25) this.kickNum = 0;
+  }
 }

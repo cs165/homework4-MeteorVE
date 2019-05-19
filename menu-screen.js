@@ -5,75 +5,60 @@
 class MenuScreen {
   constructor() {
     // TODO(you): Implement the constructor and add fields as necessary.
-    this._onJsonReady = this._onJsonReady.bind(this);
-    this.createOption = this.createOption.bind(this);
-    this.hide = this.hide.bind(this);
-    this._onSubmit = this._onSubmit.bind(this);
+    this.audioInfo = null;
+    this.save_and_render = this.save_and_render.bind(this);
+    this.submitOperation = this.submitOperation.bind(this);
+    
 
-    this.audioInfo = new Array();
-    var words = ['candy', 'charlie brown', 'computers', 'dance', 'donuts', 'hello kitty', 'flowers', 'nature', 'turtles', 'space'];
+    // fill out the query-input
+    var themeValue = ['candy', 'charlie brown', 'computers', 'dance', 'donuts', 'hello kitty', 'flowers', 'nature', 'turtles', 'space'];
     this.inputValue = document.querySelector('#query-input');
-    console.log(this.inputValue);
-    this.inputValue.value = words[Math.floor(Math.random() * words.length)];
-    console.log(words);
+    this.inputValue.value = themeValue[Math.floor(Math.random() * themeValue.length)];
+    
     const form = document.querySelector('form');
-    form.addEventListener('submit', this._onSubmit);
-
-   
+    form.addEventListener('submit', this.submitOperation);
   }
-  _onSubmit() {
 
-    const chooseValue = document.querySelector('#song-selector').value;
-    console.log(chooseValue);
-    console.log(this.inputValue.value);
+  submitOperation(){
     this.hide();
-    const audioScreenElement = document.querySelector('#audio-screen');
-    audioScreenElement.style.display = 'flex';
-    const gifElement = new GifDisplay(this.inputValue.value);
     event.preventDefault();
-    gifElement.loadgif();
-    const musicElement = new MusicScreen(gifElement);
-    /*use choose(title) to got the url from audioInfo(JSON)*/
-    for (const info in this.audioInfo) {
-      console.log(this.audioInfo[info].title);
-      if (JSON.stringify(this.audioInfo[info].title) == chooseValue) {
-        console.log(this.audioInfo[info].songUrl);
-        musicElement.playAudio(this.audioInfo[info].songUrl);
+
+    const themeValue = document.querySelector('#song-selector').value;
+    const musicScreen = new MusicScreen();
+    // Send Gif keyword
+    musicScreen.submitOperation(this.inputValue.value);
+    for (let info in this.audioInfo) {
+      if (JSON.stringify(this.audioInfo[info].title) == themeValue) {
+        musicScreen.playAudio(this.audioInfo[info].songUrl);
       }
     }
-  }
-  createOption(selectContainer, audioTitle) {
-    const newOption = document.createElement('option');
-    console.log(newOption);
-    newOption.innerHTML = JSON.stringify(audioTitle);
-    return newOption;
-  }
-  _renderAudios() {
-    const selectContainer = document.querySelector('#song-selector');
-    for (const info in this.audioInfo) {
-      const audio = this.createOption(selectContainer, this.audioInfo[info].title);
-      selectContainer.appendChild(audio);
-    }
-  }
-  loadAudios() {
-    fetch('https://fullstackccu.github.io/homeworks/hw4/songs.json')
-      .then(this._onResponse)
-      .then(this._onJsonReady);
+
   }
 
-  _onJsonReady(json) {
+  loadSelect(){
+    fetch('https://fullstackccu.github.io/homeworks/hw4/songs.json')
+      .then(response => response.json())
+      .then(this.save_and_render);
+  }
+
+  save_and_render(json) {
     this.audioInfo = json;
     console.log(this.audioInfo);
-    this._renderAudios();
+    const renderOption = () => {      
+      const SongSelect = document.querySelector('#song-selector');
+      for (const title in this.audioInfo) {
+        const newOption = document.createElement('option');
+        newOption.innerHTML = JSON.stringify(this.audioInfo[title].title);
+        SongSelect.appendChild(newOption);
+      }
+    }
+    renderOption();
   }
 
-  _onResponse(response) {
-    return response.json();
-  }
   hide() {
-    const menuElement = document.querySelector('#menu');
-    menuElement.style.display = 'none';
-    console.log(menuElement.style.display);
+    const menuEle = document.querySelector('#menu');
+    menuEle.style.display = 'none';
+    console.log("Hide the menu complete");
   }
 
 }

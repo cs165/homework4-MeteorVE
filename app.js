@@ -11,7 +11,7 @@ class App {
     var musicElement = document.getElementById('#main');
 
     const MenuEle = new MenuScreen(menu);
-    MenuEle.loadAudios();
+    MenuEle.loadSelect();
 
     
   }
