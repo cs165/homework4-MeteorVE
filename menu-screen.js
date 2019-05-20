@@ -8,7 +8,10 @@ class MenuScreen {
     this.audioInfo = null;
     this.save_and_render = this.save_and_render.bind(this);
     this.submitOperation = this.submitOperation.bind(this);
+    this.checkgifLength = this.checkgifLength.bind(this);
+    this.hideAndPlay = this.hideAndPlay.bind(this);
     
+    this.i=0;
 
     // fill out the query-input
     var themeValue = ['candy', 'charlie brown', 'computers', 'dance', 'donuts', 'hello kitty', 'flowers', 'nature', 'turtles', 'space'];
@@ -22,26 +25,51 @@ class MenuScreen {
   submitOperation(){
     event.preventDefault();
 
-    const themeValue = document.querySelector('#song-selector').value;
     const musicScreen = new MusicScreen();
 
     // Send Gif keyword
     musicScreen.submitOperation(this.inputValue.value);
     
-    console.log(musicScreen.gifBox.gifLengt);
     
     // Confirm if Gif List < 2
-    if (musicScreen.gifBox.gifLength < 2){
+    this.checkgifLength(musicScreen);
+  } // end of submitOperation
+
+  hideAndPlay(musicScreen) {
+    if (musicScreen.gifBox.gifLength < 2) {
       document.querySelector('#error').classList.remove("inactive");
-    }else{
+    } else {
       this.hide();
+      const themeValue = document.querySelector('#song-selector').value;
       for (let info in this.audioInfo) {
         if (JSON.stringify(this.audioInfo[info].title) == themeValue) {
           musicScreen.playAudio(this.audioInfo[info].songUrl);
         }
       }// end of for loop
     } // end of else condition 
-  } // end of submitOperation
+  }
+
+  checkgifLength(musicScreen) {
+    console.log("start to check gif Length");
+    console.log(musicScreen.gifBox.gifLengt);
+    var that = this;
+    if(musicScreen.gifBox.gifLength == -1 || musicScreen.gifBox.gifLength == undefined){
+      setTimeout(function () {
+        console.log("waiting for fetch");
+        console.log(that);
+        
+        that.checkgifLength(musicScreen);
+        // if (this.i < 100) {
+        //   console.log("waiting for fetch");
+        //   this.checkgifLength(musicScreen);
+        // }
+      }, 1000);
+    }else{
+      this.hideAndPlay(musicScreen); 
+    }
+    //this.i += 1;
+    
+  }
 
   loadSelect(){
     fetch('https://fullstackccu.github.io/homeworks/hw4/songs.json')
